@@ -1,15 +1,18 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var cors = require('cors');
-var mongojs = require('mongojs');
 var port = 8080;
 var app = express();
-var db = mongjs('ecommerce');
-var col = db.collection('products');
-var ObjId = mongojs.ObjectId;
+var end = require('./endpoints.js');
 
 app.use(cors());
 app.use(bodyParser.json());
+
+app.post('/products', end.create);
+app.get('/products', end.index);
+app.get('/products/:id', end.get);
+app.put('/products/:id', end.update);
+app.delete('/products/:id', end.delete);
 
 app.listen(port, function() {
     console.log('Listening on port ' + port);
