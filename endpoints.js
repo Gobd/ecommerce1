@@ -3,18 +3,6 @@
     var col = db.collection('products');
     var objId = mongojs.ObjectId;
 
-    var hasOwnProperty = Object.prototype.hasOwnProperty;
-
-    function isEmpty(obj) {
-        if (obj == null) return true;
-        if (obj.length > 0)    return false;
-        if (obj.length === 0)  return true;
-        for (var key in obj) {
-            if (hasOwnProperty.call(obj, key)) return false;
-        }
-        return true;
-    }
-
 module.exports = {
 
     create: function (req, res) {
@@ -28,7 +16,7 @@ module.exports = {
     },
 
     index: function (req, res) {
-        if (isEmpty(req.query)) {
+        if (Object.keys(req.query).length === 0) {
             col.find(function (err, resp) {
                 if (err) {
                     res.status(500).json(err);
@@ -42,9 +30,9 @@ module.exports = {
                         delete req.query[key];
                     }
                 }
-            if (Object.keys(req.query).length === 1 && req.query.name) {
-                var reg = new RegExp('\\w*(' + req.query.name + ')\\w*', "ig");
-                req.query = {name: reg};
+            if (Object.keys(req.query).length === 1 &&  req.query.regex) {
+                    var reg = new RegExp('\\w*(' + req.query.regex + ')\\w*', "ig");
+                    req.query = {$or: [{name: reg}, {desc: reg}]};
             }
             col.find(req.query, function (err, resp) {
                 if (err) {
@@ -96,3 +84,4 @@ module.exports = {
         })
     }
 };
+
