@@ -26,10 +26,9 @@
             </div>
         </div>
     </div>
-</div>
 
-<div class="row postSearch">
-    <div class="col-md-2"></div>
+<div class="row">
+    <div class="col-md-1"></div>
     <div class="col-sm-6 col-md-4">
         <h2>Post new product</h2>
         <form name="postForm" ng-submit="post(postData)">
@@ -43,10 +42,10 @@
             </div>
         </form>
     </div>
-
+    <div class="col-md-2"></div>
     <div class="col-sm-6 col-md-4">
         <h2>Search by id OR others</h2>
-        <form name="postForm" ng-submit="get(params, getId)">
+        <form name="getForm" ng-submit="get(params, getId)">
             <input type="text" class="form-control" ng-model="getId" placeholder="Product ID...">
             <input type="text" class="form-control" ng-model="params.name" placeholder="Name...">
             <input type="text" class="form-control" ng-model="params.desc" placeholder="Description...">
@@ -58,5 +57,7 @@
             </div>
         </form>
     </div>
-    <div class="col-md-2"></div>
+    <div class="col-md-1"></div>
+</div>
+
 </div>

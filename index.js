@@ -10,7 +10,6 @@ app.use(cors());
 app.options('*', cors());
 app.use(bodyParser.json());
 
-
 app.post('/products', end.create);
 app.get('/products', end.index);
 app.get('/products/:id', end.get);

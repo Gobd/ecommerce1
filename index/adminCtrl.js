@@ -14,7 +14,7 @@ angular.module('app').controller('adminCtrl', function($scope, mainSvc, prodRef)
             return 'Please input search';
         }
         mainSvc.get(params, id).then(function(res){
-            $scope.product = res.data;
+            $scope.products = res.data;
         })
     };
 

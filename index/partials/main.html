@@ -1,8 +1,26 @@
+<div class="container-fluid">
+    <div class="row topbar">
+        <div class="col-sm-4 col-md-2"><h1>Store</h1></div>
+        <div class="col-sm-4 col-md-3">
+            <form name="postForm" ng-submit="get(params)">
+                <div class="input-group">
+                    <input type="text" class="form-control" ng-model="params.name" placeholder="Search...">
+                    <div class="input-group-btn">
+                        <button class="btn btn-default" type="submit">Go!</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-sm-4 col-md-4 logo"><img src="Drawing.png" height="90"></div>
+    </div>
+</div>
+
 <div class="container">
+
     <div class="row">
         <div class="col-sm-6 col-md-4" ng-repeat="product in products" ng-show="!product.show">
             <div class="thumbnail">
-                <img src="https://placehold.it/350x150">
+                <img class="prodImg" src="https://placehold.it/350x150">
                 <div class="caption">
                     <h3>{{product.name}}</h3>
                     <p>{{product.desc}}</p>
@@ -15,20 +33,5 @@
             </div>
         </div>
     </div>
-</div>
 
-
-<div class="col-sm-6 col-md-4">
-    <h2>Search by id OR others</h2>
-    <form name="postForm" ng-submit="get(params, getId)">
-        <input type="text" class="form-control" ng-model="getId" placeholder="Product ID...">
-        <input type="text" class="form-control" ng-model="params.name" placeholder="Name...">
-        <input type="text" class="form-control" ng-model="params.desc" placeholder="Description...">
-        <div class="input-group">
-            <input type="number" step="0.01" class="form-control" ng-model="params.price" placeholder="Price...">
-            <div class="input-group-btn">
-                <button class="btn btn-default" type="submit">Go!</button>
-            </div>
-        </div>
-    </form>
 </div>

@@ -7,9 +7,16 @@ html {
 .thumbnail {
     min-height: 400px;
 }
-img {
+.prodImg {
     min-height:200px;
 }
 a[ng-click]{
     cursor: pointer;
+}
+.row.topbar {
+    height: 120px;
+    background-color: red;
+    margin-bottom: 50px;
+    display: flex;
+    align-items: center;
 }

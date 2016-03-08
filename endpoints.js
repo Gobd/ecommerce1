@@ -42,6 +42,10 @@ module.exports = {
                         delete req.query[key];
                     }
                 }
+            if (Object.keys(req.query).length === 1 && req.query.name) {
+                var reg = new RegExp('\\w*(' + req.query.name + ')\\w*', "ig");
+            }
+            console.log(req.query);
             col.find(req.query, function (err, resp) {
                 if (err) {
                     res.status(500).json(err);
