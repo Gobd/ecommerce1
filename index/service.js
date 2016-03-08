@@ -25,13 +25,12 @@ angular.module('app').service('mainSvc', function($http){
                 method: 'GET',
                 url: 'http://localhost:8080/products/' + id
             });
-        } else {
+        }
             return $http({
                 method: 'GET',
                 url: 'http://localhost:8080/products',
                 params: params
             });
-        }
     };
 
     this.put = function(data, id){
