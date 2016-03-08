@@ -5,8 +5,11 @@ var port = 8080;
 var app = express();
 var end = require('./endpoints.js');
 
+app.use(express.static(__dirname + '/index'));
 app.use(cors());
+app.options('*', cors());
 app.use(bodyParser.json());
+
 
 app.post('/products', end.create);
 app.get('/products', end.index);

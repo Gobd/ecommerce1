@@ -1,0 +1,42 @@
+<div><p>display all items</p>{{products}}</div>
+
+<div>
+    <p>post new item</p>
+    <form ng-submit="post(postData)">
+        <input type="text" ng-model="postData.name" placeholder="name">
+        <input type="text" ng-model="postData.price" placeholder="price">
+        <input type="text" ng-model="postData.desc" placeholder="desc">
+        <input type="submit">
+    </form>
+</div>
+
+<div>
+    <p>search products by id or others</p>
+    {{product}}
+    <form ng-submit="get(params, getId)">
+        <input type="text" ng-model="getId" placeholder="name">
+        <input type="text" ng-model="params.name" placeholder="name">
+        <input type="text" ng-model="params.price" placeholder="price">
+        <input type="text" ng-model="params.desc" placeholder="desc">
+        <input type="submit">
+    </form>
+</div>
+
+<div>
+    <p>update a product by id</p>
+    <form ng-submit="put(putData, putId)">
+        <input type="text" ng-model="putId" placeholder="id">
+        <input type="text" ng-model="putData.name" placeholder="name">
+        <input type="text" ng-model="putData.price" placeholder="price">
+        <input type="text" ng-model="putData.desc" placeholder="desc">
+        <input type="submit">
+    </form>
+</div>
+
+<div>
+    <p>delete</p>
+    <form ng-submit="delete(delId)">
+        <input type="text" ng-model="delId" placeholder="id">
+        <input type="submit">
+    </form>
+</div>
