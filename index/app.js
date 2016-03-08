@@ -19,6 +19,14 @@ angular.module('app').config(function ($stateProvider, $urlRouterProvider) {
         })
         .state('admin', {
             url: "/admin",
-            templateUrl: "partials/admin.html"
+            templateUrl: "partials/admin.html",
+            controller: 'adminCtrl',
+            resolve: {
+                prodRef: function(mainSvc){
+                    return mainSvc.index().then(function(res){
+                        return res.data;
+                    });
+                }
+            }
         });
 });

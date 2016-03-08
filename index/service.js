@@ -1,15 +1,11 @@
 angular.module('app').service('mainSvc', function($http){
 
     this.post = function(data){
-        $http({
+       return $http({
             method: 'POST',
             url: 'http://localhost:8080/products/',
             data: data
-        }).then(function successCallback(response) {
-            return response;
-        }, function errorCallback(response) {
-            return response;
-        });
+        })
     };
 
     this.index = function(){
@@ -33,11 +29,13 @@ angular.module('app').service('mainSvc', function($http){
             });
     };
 
-    this.put = function(data, id){
+    this.put = function(product){
+        id = product._id;
+        delete product._id
         $http({
             method: 'PUT',
             url: 'http://localhost:8080/products/' + id,
-            data: data
+            data: product
         }).then(function successCallback(response) {
             return response;
         }, function errorCallback(response) {

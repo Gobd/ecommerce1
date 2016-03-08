@@ -37,6 +37,11 @@ module.exports = {
                 }
             })
         } else {
+                for (var key in req.query) {
+                    if (req.query[key].length < 1) {
+                        delete req.query[key];
+                    }
+                }
             col.find(req.query, function (err, resp) {
                 if (err) {
                     res.status(500).json(err);
@@ -60,6 +65,11 @@ module.exports = {
 
     update: function (req, res) {
         var id = req.params.id;
+        for (var key in req.body) {
+            if (req.body[key].length < 1) {
+                delete req.body[key];
+            }
+        }
         col.update({_id: objId(id)},
             {$set: req.body},
             function (err, resp) {

@@ -1,0 +1,62 @@
+<div class="container">
+    <div class="row">
+        <div class="col-sm-6 col-md-4" ng-repeat="product in products" ng-show="!product.show">
+            <div class="thumbnail">
+                <img src="https://placehold.it/350x150">
+                <div class="caption">
+                    <h3>{{product.name}}</h3>
+                    <p>{{product.desc}}</p>
+                    <p>{{product.price | currency : '$'}}</p>
+                    <p>
+                        <a class="btn btn-primary" role="button" ng-click="delete(product._id); product.show = true">Delete</a>
+                        <a ng-click="setActive(product)" ng-hide="activeItem === product" class="btn btn-default" role="button">Edit</a>
+                        <a ng-click="setCancel(product)" class="btn btn-default" ng-show="activeItem === product" role="button">Cancel</a>
+                    </p>
+                </div>
+                <form name="editForm" ng-submit="put(product)" ng-show="activeItem === product">
+                    <input type="text" class="form-control" ng-model="product.name">
+                    <textarea rows="5" type="text" class="form-control" ng-model="product.desc"></textarea>
+                    <div class="input-group">
+                        <input type="number" step="0.01" class="form-control" ng-model="product.price">
+                        <div class="input-group-btn">
+                            <button class="btn btn-default" type="submit">Go!</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row postSearch">
+    <div class="col-md-2"></div>
+    <div class="col-sm-6 col-md-4">
+        <h2>Post new product</h2>
+        <form name="postForm" ng-submit="post(postData)">
+            <input type="text" class="form-control" ng-model="postData.name" placeholder="Product name...">
+            <textarea rows="5" type="text" class="form-control" ng-model="postData.desc" placeholder="Description..."></textarea>
+            <div class="input-group">
+                <input type="number" step="0.01" class="form-control" ng-model="postData.price" placeholder="Price...">
+                <div class="input-group-btn">
+                    <button class="btn btn-default" type="submit">Go!</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="col-sm-6 col-md-4">
+        <h2>Search by id OR others</h2>
+        <form name="postForm" ng-submit="get(params, getId)">
+            <input type="text" class="form-control" ng-model="getId" placeholder="Product ID...">
+            <input type="text" class="form-control" ng-model="params.name" placeholder="Name...">
+            <input type="text" class="form-control" ng-model="params.desc" placeholder="Description...">
+            <div class="input-group">
+                <input type="number" step="0.01" class="form-control" ng-model="params.price" placeholder="Price...">
+                <div class="input-group-btn">
+                    <button class="btn btn-default" type="submit">Go!</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="col-md-2"></div>
+</div>

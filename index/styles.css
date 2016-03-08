@@ -1,0 +1,15 @@
+html {
+    box-sizing: border-box;
+}
+*, *:before, *:after {
+    box-sizing: inherit;
+}
+.thumbnail {
+    min-height: 400px;
+}
+img {
+    min-height:200px;
+}
+a[ng-click]{
+    cursor: pointer;
+}
