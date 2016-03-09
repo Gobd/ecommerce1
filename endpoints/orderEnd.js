@@ -6,7 +6,6 @@ var User = require('../models/userModel.js');
 var options = {runValidators: true};
 
 function saveUser(userToSave, req, res){
-    console.log('saving');
     userToSave.save(function(err, resp){
         return err ? res.status(500).json(err) : res.status(200).json(resp);
     })
@@ -24,8 +23,8 @@ function saveUser(userToSave, req, res){
 // }
 
 
-//add product
-// post api/cart/id
+//add product to cart
+// post api/cart/userid
 // {
 //     "item" : "56e098bc30ffc7d7e9bc49c3",
 //     "qty" : "1"
@@ -38,6 +37,10 @@ function saveUser(userToSave, req, res){
 // put /api/cart/userid
 //localhost:8080/api/cart/56e09ec2d1834832ea16f151/?qty=5&itmId=56e098bc30ffc7d7e9bc49c3
 
+// User.findByIdAndUpdate(id, {$push : {cart : req.body}}, function(err, resp){
+//     return err ? res.status(500).json(err) : res.status(200).json(resp);
+// })
+// },
 
 module.exports = {
     createUser : function(req, res, next) {
@@ -47,9 +50,23 @@ module.exports = {
     },
     addCart : function(req, res, next) {
         var id = req.params.user_id;
-            User.findByIdAndUpdate(id, {$push : {cart : req.body}}, function(err, resp){
-                return err ? res.status(500).json(err) : res.status(200).json(resp);
-            })
+        User.findById(id, function(err, resp){
+            if (err) {res.status(500).json(err)}
+            var user = resp;
+            var qty = req.body.qty;
+            var foundItem = -1;
+            user.cart.forEach(function(cartItem, idx){
+                if(cartItem.item.toString() === req.body.item.toString()){
+                    foundItem = idx;
+                }
+            });
+            if(foundItem >= 0) {
+                user.cart[foundItem].qty += parseInt(qty);
+            } else {
+                user.cart.push(req.body);
+            }
+            saveUser(user, req, res);
+        })
     },
     editCart : function(req, res, next) {
         var id = req.params.user_id;
@@ -60,7 +77,6 @@ module.exports = {
             var foundItem = -1;
             user.cart.forEach(function(cartItem, idx){
                 if(cartItem.item.toString() === req.query.itmId.toString()){
-                    console.log(cartItem.item);
                     foundItem = idx;
                 }
             });
@@ -78,6 +94,7 @@ module.exports = {
         var id = req.params.id;
         User
             .findById(id)
+            .populate('cart.item')
             .exec(function(err, resp){
                 return err ? res.status(500).json(err) : res.status(200).json(resp);
             })
