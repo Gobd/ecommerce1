@@ -4,6 +4,13 @@ var cors = require('cors');
 var port = 8080;
 var app = express();
 var end = require('./endpoints.js');
+var mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost/ecommerce');
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function() {
+    console.log('Connected to MongoDB!');
+});
 
 app.use(express.static(__dirname + '/index'));
 app.use(cors());
@@ -19,3 +26,5 @@ app.delete('/products/:id', end.delete);
 app.listen(port, function() {
     console.log('Listening on port ' + port);
 });
+
+module.exports = app;

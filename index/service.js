@@ -31,7 +31,7 @@ angular.module('app').service('mainSvc', function($http){
 
     this.put = function(product){
         id = product._id;
-        delete product._id
+        delete product._id;
         $http({
             method: 'PUT',
             url: 'http://localhost:8080/products/' + id,

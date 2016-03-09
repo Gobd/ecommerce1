@@ -1,12 +1,11 @@
-    var mongojs = require('mongojs');
-    var db = mongojs('ecommerce');
-    var col = db.collection('products');
-    var objId = mongojs.ObjectId;
+var Product = require('./productSchema.js');
+var mongoose = require('mongoose');
+var options = {runValidators: true};
 
 module.exports = {
 
     create: function (req, res) {
-        col.insert(req.body, function (err, resp) {
+        Product.create(req.body, function (err, resp) {
             if (err) {
                 res.status(500).json(err);
             } else {
@@ -17,7 +16,7 @@ module.exports = {
 
     index: function (req, res) {
         if (Object.keys(req.query).length === 0) {
-            col.find(function (err, resp) {
+            Product.find(function (err, resp) {
                 if (err) {
                     res.status(500).json(err);
                 } else {
@@ -32,9 +31,9 @@ module.exports = {
                 }
             if (Object.keys(req.query).length === 1 &&  req.query.regex) {
                     var reg = new RegExp('\\w*(' + req.query.regex + ')\\w*', "ig");
-                    req.query = {$or: [{name: reg}, {desc: reg}]};
+                    req.query = {$or: [{title: reg}, {desc: reg}]};
             }
-            col.find(req.query, function (err, resp) {
+            Product.find(req.query, function (err, resp) {
                 if (err) {
                     res.status(500).json(err);
                 } else {
@@ -46,7 +45,7 @@ module.exports = {
 
     get: function (req, res) {
         var id = req.params.id;
-            col.find({_id: objId(id)}, function (err, resp) {
+        Product.findById(id, function (err, resp) {
                 if (err) {
                     res.status(500).json(err);
                 } else {
@@ -62,8 +61,9 @@ module.exports = {
                 delete req.body[key];
             }
         }
-        col.update({_id: objId(id)},
-            {$set: req.body},
+        Product.findByIdAndUpdate(id,
+            req.body,
+            options,
             function (err, resp) {
             if (err) {
                 res.status(500).json(err);
@@ -75,7 +75,7 @@ module.exports = {
 
     delete: function (req, res) {
         var id = req.params.id;
-        col.remove({'_id' : objId(id)}, function (err, resp) {
+        Product.findByIdAndRemove(id, function (err, resp) {
             if (err) {
                 res.status(500).json(err);
             } else {
