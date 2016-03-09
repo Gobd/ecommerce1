@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+var ObjectId = Schema.ObjectId;
 
 var productSchema = mongoose.Schema({
      title: {
@@ -14,8 +15,12 @@ var productSchema = mongoose.Schema({
     },
     price: {
         type: Number,
-        required: true,
+        required: true
     }
 });
 
-module.exports = mongoose.model('Product', productSchema);
+module.exports = {
+    model: mongoose.model('Product', productSchema),
+    schema: productSchema
+};
+//export model and schema

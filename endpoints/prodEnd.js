@@ -1,4 +1,5 @@
-var Product = require('./productSchema.js');
+var product = require('../models/productSchema.js');
+var Product = product.model;
 var mongoose = require('mongoose');
 var options = {runValidators: true};
 
