@@ -1,16 +1,16 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var ObjectId = Schema.ObjectId;
-var product = require('./productSchema.js');
-var productSchema = product.schema;
 
 var orderSchema = mongoose.Schema({
-    user: {type: ObjectId, ref: 'User'},
-    products: [{
-        item: productSchema,
-        quantity: {type: Number}
+    _id: {type: ObjectId, ref: 'User'},
+    order : [{
+        item: {type: ObjectId, ref: 'Product'},
+        qty: {type: Number}
     }]
 });
 
-module.exports = mongoose.model('Order', orderSchema);
-//yes export model
+module.exports = {
+    model: mongoose.model('Order', orderSchema),
+    schema: orderSchema
+};

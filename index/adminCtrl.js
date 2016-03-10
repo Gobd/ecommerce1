@@ -5,7 +5,7 @@ angular.module('app').controller('adminCtrl', function($scope, mainSvc, prodRef)
     $scope.post = function(postData){
         mainSvc.post(postData).then(function(response){
             $scope.products.push(response.data);
-        })
+        });
         $scope.postData = {};
     };
 

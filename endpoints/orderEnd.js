@@ -3,6 +3,9 @@ var product = require('../models/productSchema.js');
 var productSchema = product.schema;
 var cartSchema = require('../models/cartSchema.js');
 var User = require('../models/userModel.js');
+var order = require ('../models/orderSchema.js');
+var Order = order.model;
+var async = require('./async.js');
 var options = {runValidators: true};
 
 function saveUser(userToSave, req, res){
@@ -37,10 +40,9 @@ function saveUser(userToSave, req, res){
 // put /api/cart/userid
 //localhost:8080/api/cart/56e09ec2d1834832ea16f151/?qty=5&itmId=56e098bc30ffc7d7e9bc49c3
 
-// User.findByIdAndUpdate(id, {$push : {cart : req.body}}, function(err, resp){
+// async.parallel([user.save, orderObj.save], function(err, resp){
 //     return err ? res.status(500).json(err) : res.status(200).json(resp);
-// })
-// },
+// });
 
 module.exports = {
     createUser : function(req, res, next) {
@@ -98,5 +100,34 @@ module.exports = {
             .exec(function(err, resp){
                 return err ? res.status(500).json(err) : res.status(200).json(resp);
             })
+    },
+    postOrder: function(req, res, next) {
+        var id = req.params.user_id;
+        User.findById(id, function(err, resp){
+            var user = resp;
+            var order = new Order([]);
+            user.cart.forEach(function(cartItem){
+                order.order.push({
+                    item: cartItem.item,
+                    qty: cartItem.qty
+                });
+            });
+            // user.cart = [];
+            //make this userinfo collection, for users orders, and other info
+            order['user_id'] = user._id;
+            async.parallel([user.save, order.save], function(err, resp){
+                return err ? res.status(500).json(err) : res.status(200).json(resp);
+            });
+        })
+
+    },
+    getOrder: function(req, res, next){
+        var id = req.query.id;
+        Order.find({user_id: id}, function(req, resp){
+            err ? res.status(500).json(err) : res.status(200).json(resp)
+        })
     }
 };
+// 56e098bc30ffc7d7e9bc49c3
+// 56e098c430ffc7d7e9bc49c4
+// 56e098ce30ffc7d7e9bc49c5
