@@ -15,6 +15,25 @@
     </div>
 </div>
 
+<div class="row">
+    <div class="col-sm-4 col-md-3">
+        <form name="newUserForm" ng-submit="newUser(userData)">
+            <div class="input-group">
+                <input type="text" class="form-control" ng-model="userData.name" placeholder="Name...">
+                <input type="text" class="form-control" ng-model="userData.email" placeholder="Email...">
+                <input type="text" class="form-control" ng-model="userData.password" placeholder="Password...">
+                <div class="input-group-btn">
+                    <button class="btn btn-default" type="submit">Go!</button>
+                </div>
+            </div>
+        </form>
+        {{user}}
+    </div>
+</div>
+
+<a ng-click="getUser()">Click Here</a>
+<div>{{user2}}</div>
+
 <div class="container">
 
     <div class="row">

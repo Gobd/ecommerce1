@@ -10,6 +10,7 @@ var orderFul = require ('../models/orderFulSchema.js');
 var Promise = require('./bluebird.js');
 var join = Promise.join;
 
+
 var options = {runValidators: true};
 
 function saveUser(userToSave, req, res){
@@ -46,7 +47,10 @@ function saveUser(userToSave, req, res){
 
 module.exports = {
     createUser : function(req, res, next) {
+        var sess = req.session;
         User.create(req.body, function(err, resp){
+            sess.uid = String(resp._id);
+            sess.save();
             return err ? res.status(500).json(err) : res.status(200).json(resp);
         })
     },
@@ -93,7 +97,17 @@ module.exports = {
         })
     },
     getUser : function(req, res, next){
-        var id = req.params.id;
+        var sess = req.session;
+        console.log('sess', sess);
+        console.log('uid', sess.uid);
+        console.log('uid', req.session.uid);
+        var id = '';
+        if (req.session.uid) {
+            id = req.session.uid;
+        } else {
+            id = req.query.id;
+        }
+        console.log('below if else' + id);
         User
             .findById(id)
             .populate('cart.item')

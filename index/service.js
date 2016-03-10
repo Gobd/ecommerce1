@@ -54,4 +54,27 @@ angular.module('app').service('mainSvc', function($http){
         });
     };
 
+    this.newUser = function(newUser){
+        return $http({
+            method: 'POST',
+            url: 'http://localhost:8080/api/user',
+            data: newUser
+        });
+    };
+
+    this.login = function () {
+        return $http({
+            method: 'GET',
+            withCredentials: true,
+            url: 'http://localhost:8080/api/user'
+        })
+    };
+
+    // post /api/user
+// get /api/user/:id
+// post /api/order/:id
+// get api/order
+// post /api/cart/:id
+// put /api/cart/:id
+
 });
