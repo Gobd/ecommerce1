@@ -12,13 +12,15 @@
             </form>
         </div>
         <div class="col-sm-4 col-md-4 logo"><img src="Drawing.png" height="90"></div>
+        <div ng-if="user" class="col-sm-4 col-md-4 logo"><p>Hi, {{user.name}}</p></div>
     </div>
 </div>
 
-<div class="row">
+<div ng-if="!user || hideLogin" class="row">
     <div class="col-sm-4 col-md-3">
         <form name="newUserForm" ng-submit="newUser(userData)">
             <div class="input-group">
+                <input type="text" class="form-control" ng-model="uid" placeholder="UID...">
                 <input type="text" class="form-control" ng-model="userData.name" placeholder="Name...">
                 <input type="text" class="form-control" ng-model="userData.email" placeholder="Email...">
                 <input type="text" class="form-control" ng-model="userData.password" placeholder="Password...">
@@ -27,12 +29,8 @@
                 </div>
             </div>
         </form>
-        {{user}}
     </div>
 </div>
-
-<a ng-click="getUser()">Click Here</a>
-<div>{{user2}}</div>
 
 <div class="container">
 

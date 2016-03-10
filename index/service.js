@@ -62,12 +62,19 @@ angular.module('app').service('mainSvc', function($http){
         });
     };
 
-    this.login = function () {
-        return $http({
-            method: 'GET',
-            withCredentials: true,
-            url: 'http://localhost:8080/api/user'
-        })
+    this.login = function (id) {
+        if (id) {
+            return $http({
+                method: 'GET',
+                params: {id: id},
+                url: 'http://localhost:8080/api/user'
+            })
+        } else {
+            return $http({
+                method: 'GET',
+                url: 'http://localhost:8080/api/user'
+            })
+        }
     };
 
     // post /api/user

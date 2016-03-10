@@ -98,16 +98,12 @@ module.exports = {
     },
     getUser : function(req, res, next){
         var sess = req.session;
-        console.log('sess', sess);
-        console.log('uid', sess.uid);
-        console.log('uid', req.session.uid);
         var id = '';
-        if (req.session.uid) {
-            id = req.session.uid;
+        if (sess.uid) {
+            id = sess.uid;
         } else {
             id = req.query.id;
         }
-        console.log('below if else' + id);
         User
             .findById(id)
             .populate('cart.item')
