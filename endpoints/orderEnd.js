@@ -106,9 +106,9 @@ module.exports = {
         User.findById(id, function(err, resp){
             var user = resp;
             var order = {};
-            var fullfill = {};
-            fullfill['user_id'] = user._id;
-            cartInfo = [];
+            var fulfill = {};
+            fulfill['user_id'] = user._id;
+            var cartInfo = [];
             user.cart.forEach(function(cartItem, idx){
                 cartInfo.push({
                     item: cartItem.item,
@@ -117,11 +117,11 @@ module.exports = {
                     order.items = idx + 1;
             });
             order.order = cartInfo;
-            fullfill.order = cartInfo;
+            fulfill.order = cartInfo;
             user.cart = [];
             user.orders.push(order);
             var userPromise = user.save();
-            var orderPromise = orderFul.create(fullfill);
+            var orderPromise = orderFul.create(fulfill);
             join(userPromise, orderPromise, function(user, order){
                 return [user, order];
             }).then(function(resp){
