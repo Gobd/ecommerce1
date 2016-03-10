@@ -1,11 +1,15 @@
 var mongoose = require('mongoose');
+mongoose.Promise = require('./bluebird.js');
 var product = require('../models/productSchema.js');
 var productSchema = product.schema;
 var cartSchema = require('../models/cartSchema.js');
 var User = require('../models/userModel.js');
 var order = require ('../models/orderSchema.js');
 var Order = order.model;
-var async = require('./async.js');
+var orderFul = require ('../models/orderFulSchema.js');
+var Promise = require('./bluebird.js');
+var join = Promise.join;
+
 var options = {runValidators: true};
 
 function saveUser(userToSave, req, res){
@@ -39,10 +43,6 @@ function saveUser(userToSave, req, res){
 // edit cart
 // put /api/cart/userid
 //localhost:8080/api/cart/56e09ec2d1834832ea16f151/?qty=5&itmId=56e098bc30ffc7d7e9bc49c3
-
-// async.parallel([user.save, orderObj.save], function(err, resp){
-//     return err ? res.status(500).json(err) : res.status(200).json(resp);
-// });
 
 module.exports = {
     createUser : function(req, res, next) {
@@ -105,18 +105,27 @@ module.exports = {
         var id = req.params.user_id;
         User.findById(id, function(err, resp){
             var user = resp;
-            var order = new Order([]);
-            user.cart.forEach(function(cartItem){
-                order.order.push({
+            var order = {};
+            var fullfill = {};
+            fullfill['user_id'] = user._id;
+            cartInfo = [];
+            user.cart.forEach(function(cartItem, idx){
+                cartInfo.push({
                     item: cartItem.item,
                     qty: cartItem.qty
                 });
+                    order.items = idx + 1;
             });
-            // user.cart = [];
-            //make this userinfo collection, for users orders, and other info
-            order['user_id'] = user._id;
-            async.parallel([user.save, order.save], function(err, resp){
-                return err ? res.status(500).json(err) : res.status(200).json(resp);
+            order.order = cartInfo;
+            fullfill.order = cartInfo;
+            user.cart = [];
+            user.orders.push(order);
+            var userPromise = user.save();
+            var orderPromise = orderFul.create(fullfill);
+            join(userPromise, orderPromise, function(user, order){
+                return [user, order];
+            }).then(function(resp){
+                res.status(200).json(resp);
             });
         })
 
@@ -128,6 +137,3 @@ module.exports = {
         })
     }
 };
-// 56e098bc30ffc7d7e9bc49c3
-// 56e098c430ffc7d7e9bc49c4
-// 56e098ce30ffc7d7e9bc49c5

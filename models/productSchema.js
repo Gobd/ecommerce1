@@ -1,6 +1,4 @@
 var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
-var ObjectId = Schema.ObjectId;
 
 var productSchema = mongoose.Schema({
      title: {
@@ -23,4 +21,3 @@ module.exports = {
     model: mongoose.model('Product', productSchema),
     schema: productSchema
 };
-//export model and schema

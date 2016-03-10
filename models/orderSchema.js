@@ -1,13 +1,10 @@
 var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
-var ObjectId = Schema.ObjectId;
+var cartSchema = require('./cartSchema.js');
+
 
 var orderSchema = mongoose.Schema({
-    _id: {type: ObjectId, ref: 'User'},
-    order : [{
-        item: {type: ObjectId, ref: 'Product'},
-        qty: {type: Number}
-    }]
+    items: {type: Number},
+    order : [cartSchema]
 });
 
 module.exports = {

@@ -1,5 +1,4 @@
 var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
 var cartSchema = require('./cartSchema.js');
 var order = require('./orderSchema.js');
 var orderSchema = order.schema;
@@ -9,7 +8,7 @@ var userSchema = mongoose.Schema({
     email: {type: String},
     password: {type: String},
     cart: [cartSchema],
-    orders: String
+    orders: [orderSchema]
 });
 
 module.exports = mongoose.model('User', userSchema);
