@@ -99,17 +99,26 @@ module.exports = {
     getUser : function(req, res, next){
         var sess = req.session;
         var id = '';
+        var sent = false;
+        console.log(sess.uid + 'from endpiint');
         if (sess.uid) {
             id = sess.uid;
-        } else {
+        } else if (req.query.id) {
             id = req.query.id;
+            sess.uid = String(id);
+        } else {
+            sent = true;
+            res.status(500).json('not user' + sess.uid);
         }
-        User
-            .findById(id)
-            .populate('cart.item')
-            .exec(function(err, resp){
-                return err ? res.status(500).json(err) : res.status(200).json(resp);
-            })
+        console.log(id);
+        if (!sent){
+            User
+                .findById(id)
+                .populate('cart.item')
+                .exec(function(err, resp){
+                    return err ? res.status(500).json(err) : res.status(200).json(resp);
+                })
+        }
     },
     postOrder: function(req, res, next) {
         var id = req.params.user_id;

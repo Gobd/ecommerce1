@@ -13,18 +13,20 @@ angular.module('app').controller('mainCtrl', function($scope, mainSvc, prodRef){
             $scope.user = res.data;
         })
     };
-    
-    $scope.getUser = function(){
-        if($scope.uid){
-            mainSvc.login($scope.uid).then(function(res){
-                $scope.user = res.data;
-            })
-        } else {
-            mainSvc.login().then(function(res){
-                $scope.user = res.data;
-            })
-        }
+
+    $scope.getUser = function(id){
+    if(id) {
+        console.log('yesif')
+        mainSvc.login(id).then(function(res){
+            $scope.user = res.data;
+        })
+    } else {
+        console.log('noif')
+        mainSvc.login().then(function(res){
+            $scope.user = res.data;
+        })
+    }
     };
 
-    $scope.getUser();
+    $scope.getUser(0);
 });
