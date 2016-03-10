@@ -14,7 +14,13 @@ angular.module('app').config(function ($stateProvider, $urlRouterProvider) {
                     return mainSvc.index().then(function(res){
                         return res.data;
                     });
+                },
+                userRef: function(mainSvc){
+                    return mainSvc.login().then(function(res){
+                        return res.data;
+                    });
                 }
+
             }
         })
         .state('admin', {

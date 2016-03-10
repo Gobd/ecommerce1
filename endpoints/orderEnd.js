@@ -100,7 +100,6 @@ module.exports = {
         var sess = req.session;
         var id = '';
         var sent = false;
-        console.log(sess.uid + 'from endpiint');
         if (sess.uid) {
             id = sess.uid;
         } else if (req.query.id) {
@@ -108,7 +107,7 @@ module.exports = {
             sess.uid = String(id);
         } else {
             sent = true;
-            res.status(500).json('not user' + sess.uid);
+            res.status(200).json(false);
         }
         console.log(id);
         if (!sent){
