@@ -62,11 +62,11 @@ angular.module('app').service('mainSvc', function($http){
         });
     };
 
-    this.login = function (id) {
-        if (id) {
+    this.login = function (email, password) {
+        if (email && password) {
             return $http({
                 method: 'GET',
-                params: {id: id},
+                params: {email: email, password: password},
                 url: 'http://localhost:8080/api/user'
             })
         } else {

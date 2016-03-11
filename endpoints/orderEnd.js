@@ -87,22 +87,29 @@ module.exports = {
         var sess = req.session;
         var id = '';
         var sent = false;
-        if (sess.uid) {
-            id = sess.uid;
-        } else if (req.query.id) {
-            id = req.query.id;
-            sess.uid = String(id);
-        } else {
+        if (sess.uid && !sent) {
             sent = true;
-            res.status(200).json(false);
-        }
-        if (!sent){
+            id = sess.uid;
             User
                 .findById(id)
                 .populate('cart.item')
                 .exec(function(err, resp){
                     return err ? res.status(500).json(err) : res.status(200).json(resp);
                 })
+        } else if (req.query.email && !sent) {
+            sent = true;
+            var email = req.query.email;
+            var pass = req.query.password;
+            User
+                .find({$and : [{email : email}, {password: pass}]})
+                .populate('cart.item')
+                .exec(function(err, resp){
+                    sess.uid = String(resp[0]._id);
+                    return err ? res.status(500).json(err) : res.status(200).json(resp[0]);
+                })
+        } else if (!sent) {
+            sent = true;
+            res.status(200).json(false);
         }
     },
     postOrder: function(req, res, next) {

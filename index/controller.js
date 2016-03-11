@@ -15,9 +15,10 @@ angular.module('app').controller('mainCtrl', function($scope, mainSvc, prodRef, 
         })
     };
 
-    $scope.getUser = function(id){
-    if(id) {
-        mainSvc.login(id).then(function(res){
+    $scope.getUser = function(email, password){
+    if(email && password) {
+        mainSvc.login(email, password).then(function(res){
+            console.log(res.data);
             $scope.user = res.data;
         })
     } else {

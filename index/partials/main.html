@@ -13,9 +13,10 @@
         </div>
         <div class="col-sm-4 col-md-4 logo"><img src="Drawing.png" height="90"></div>
         <div class="col-sm-4 col-md-4 logo">
-            <form ng-if="!user" name="getUserForm" ng-submit="getUser(uid)">
+            <form ng-if="!user" name="getUserForm" ng-submit="getUser(email, password)">
                 <div class="input-group">
-                    <input type="text" class="form-control" ng-model="uid" placeholder="UID...">
+                    <input type="text" class="form-control" ng-model="email" placeholder="Email...">
+                    <input type="text" class="form-control" ng-model="password" placeholder="Password...">
                     <div class="input-group-btn">
                         <button class="btn btn-default" type="submit">Go!</button>
                     </div>
