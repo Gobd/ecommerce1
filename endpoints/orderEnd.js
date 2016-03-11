@@ -93,6 +93,7 @@ module.exports = {
             User
                 .findById(id)
                 .populate('cart.item')
+                .populate('orders.order.item')
                 .exec(function(err, resp){
                     return err ? res.status(500).json(err) : res.status(200).json(resp);
                 })
@@ -103,6 +104,7 @@ module.exports = {
             User
                 .find({$and : [{email : email}, {password: pass}]})
                 .populate('cart.item')
+                .populate('orders.order.item')
                 .exec(function(err, resp){
                     sess.uid = String(resp[0]._id);
                     return err ? res.status(500).json(err) : res.status(200).json(resp[0]);
@@ -113,7 +115,8 @@ module.exports = {
         }
     },
     postOrder: function(req, res, next) {
-        var id = req.params.user_id;
+        var sess = req.session;
+        var id = sess.uid;
         User.findById(id, function(err, resp){
             var user = resp;
             var order = {};
@@ -134,7 +137,7 @@ module.exports = {
             var userPromise = user.save();
             var orderPromise = orderFul.create(fulfill);
             join(userPromise, orderPromise, function(user, order){
-                return [user, order];
+                return user;
             }).then(function(resp){
                 res.status(200).json(resp);
             });
@@ -142,9 +145,13 @@ module.exports = {
 
     },
     getOrder: function(req, res, next){
-        var id = req.query.id;
-        Order.find({user_id: id}, function(req, resp){
-            err ? res.status(500).json(err) : res.status(200).json(resp)
-        })
+        var sess = req.session;
+        var id = sess.uid;
+        User
+            .findById(id)
+            .populate('orders.order.item')
+            .exec(function(err, resp){
+                return err ? res.status(500).json(err) : res.status(200).json(resp);
+            })
     }
 };

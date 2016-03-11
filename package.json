@@ -12,6 +12,8 @@
     "body-parser": "^1.15.0",
     "chai": "^3.5.0",
     "chai-http": "^2.0.1",
+    "connect-mongo": "^1.1.0",
+    "connect-mongodb-session": "^1.1.1",
     "cors": "^2.7.1",
     "express": "^4.13.4",
     "express-session": "^1.13.0",

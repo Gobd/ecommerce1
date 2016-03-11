@@ -85,9 +85,14 @@ angular.module('app').service('mainSvc', function($http){
         });
     };
 
+    this.order = function(){
+        return $http({
+            method: 'POST',
+            url: 'http://localhost:8080/api/order/'
+        });
+    };
+
     // post /api/cart/:id
 // put /api/cart/:id
-// post /api/order/:id
-// get api/order
 
 });

@@ -23,6 +23,7 @@ angular.module('app').controller('mainCtrl', function($scope, mainSvc, prodRef, 
         })
     } else {
         mainSvc.login().then(function(res){
+            console.log(res.data);
             $scope.user = res.data;
         })
     }
@@ -31,6 +32,13 @@ angular.module('app').controller('mainCtrl', function($scope, mainSvc, prodRef, 
     $scope.addCart = function(data){
         mainSvc.addCart(data).then(function(res){
             $scope.cart = res;
+        })
+    };
+
+    $scope.order = function(){
+        mainSvc.order().then(function(res){
+            console.log(res);
+            $scope.user = res.data;
         })
     }
 });

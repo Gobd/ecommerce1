@@ -32,8 +32,8 @@ app.delete('/products/:id', prodEnd.delete);
 app.post('/api/user/', orderEnd.createUser);
 app.get('/api/user/', orderEnd.getUser);
 
-app.post('/api/order/:user_id', orderEnd.postOrder);
-app.get('/api/order', orderEnd.getOrder);
+app.post('/api/order/', orderEnd.postOrder);
+app.get('/api/order/', orderEnd.getOrder);
 
 app.post('/api/cart/', orderEnd.addCart);
 app.put('/api/cart/', orderEnd.editCart);

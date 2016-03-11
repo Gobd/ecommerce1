@@ -18,6 +18,19 @@
     {{item.item.title}} -- {{item.item.desc}} -- {{item.item.price | currency : $}} -- {{item.qty}} -- {{item.item.price*item.qty | currency : $}}
 </div>
 
+<div>
+    <button class="btn btn-default" ng-click="order()">Order</button>
+</div>
+
 <div ng-if="!user.cart.length" ng-repeat="item in user.cart">
     Add some junk to your cart
 </div>
+
+
+<div ng-if="user.orders.length" ng-repeat="orders in user.orders">
+    Items in order -- {{orders.items}}<br/>
+    <div ng-repeat="order in orders.order">
+        {{order.item.title}} -- {{order.item.desc}} -- {{order.item.price | currency : $}} -- {{order.qty}} -- {{order.item.price*order.qty | currency : $}}
+    </div>
+</div>
+

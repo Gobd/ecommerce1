@@ -23,7 +23,8 @@
                 </div>
             </form>
             <div ng-if="user">
-                <p>Hi, <a ui-sref="cart">{{ user.name }}</a></p>
+                <p>Hi, {{ user.name }}</p>
+                <p><a ui-sref="cart">Cart ({{user.cart.length}})</a></p>
                  <p><a ui-sref="admin">Be an admin!</a></p>
             </div>
         </div>
@@ -57,7 +58,7 @@
                     <p>{{product.price | currency : '$'}}</p>
                     <p>
                         <a href="#" class="btn btn-primary" role="button">Details</a>
-                        <a href="#" class="btn btn-default" ng-click="addCart({item:product._id,qty:1})" role="button">Buy</a>
+                        <a href="#" class="btn btn-default" ng-click="addCart({item:product._id,qty:1})" role="button">Add to cart</a>
                     </p>
                 </div>
             </div>
