@@ -1,0 +1,22 @@
+<div class="container-fluid">
+    <div class="row topbar">
+        <div class="col-sm-4 col-md-2"><h1>Store</h1></div>
+        <div class="col-sm-4 col-md-3">
+        </div>
+        <div class="col-sm-4 col-md-4 logo"><img src="Drawing.png" height="90"></div>
+        <div class="col-sm-4 col-md-4 logo">
+            <p ng-if="user">
+                Hi, {{ user.name }}
+            </p>
+            <a ui-sref="main">Back to store</a>
+        </div>
+    </div>
+</div>
+
+<div ng-if="user.cart.length" ng-repeat="item in user.cart">
+    {{item.item.title}} -- {{item.item.desc}} -- {{item.item.price | currency : $}} -- {{item.qty}} -- {{item.item.price*item.qty | currency : $}}
+</div>
+
+<div ng-if="!user.cart.length" ng-repeat="item in user.cart">
+    Add some junk to your cart
+</div>

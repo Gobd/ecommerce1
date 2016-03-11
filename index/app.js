@@ -34,5 +34,23 @@ angular.module('app').config(function ($stateProvider, $urlRouterProvider) {
                     });
                 }
             }
+        })
+        .state('cart', {
+            url: "/cart",
+            templateUrl: "partials/cart.html",
+            controller: 'mainCtrl',
+            resolve: {
+                prodRef: function(mainSvc){
+                    return mainSvc.index().then(function(res){
+                        return res.data;
+                    });
+                },
+                userRef: function(mainSvc){
+                    return mainSvc.login().then(function(res){
+                        return res.data;
+                    });
+                }
+
+            }
         });
 });

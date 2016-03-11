@@ -19,25 +19,6 @@ function saveUser(userToSave, req, res){
     })
 }
 
-//user id 56e09c7569ff7804eaf99974
-//prod id 56e098bc30ffc7d7e9bc49c3
-
-//new user
-// post api/user
-// {
-//     "name" : "Brian",
-//     "email" : "hey@a.com",
-//     "password" : "passaasdas"
-// }
-
-
-//add product to cart
-// post api/cart/userid
-// {
-//     "item" : "56e098bc30ffc7d7e9bc49c3",
-//     "qty" : "1"
-// }
-
 //get user
 // get api/user/id
 
@@ -55,28 +36,30 @@ module.exports = {
         })
     },
     addCart : function(req, res, next) {
-        if (!req.session) {
-            res.status(500).json('not logged in');
-        }
-        var sess = req.session;
-        id = sess.uid;
-        User.findById(id, function(err, resp){
-            if (err) {res.status(500).json(err)}
-            var user = resp;
-            var qty = req.body.qty;
-            var foundItem = -1;
-            user.cart.forEach(function(cartItem, idx){
-                if(cartItem.item.toString() === req.body.item.toString()){
-                    foundItem = idx;
+        if (req.session.uid === undefined) {
+            res.status(200).json('not logged in');
+        } else {
+            var sess = req.session;
+            id = sess.uid;
+            User.findById(id, function(err, resp){
+                if (err) {res.status(500).json(err)}
+                var user = resp;
+                var qty = req.body.qty;
+                var foundItem = -1;
+                user.cart.forEach(function(cartItem, idx){
+                    if(cartItem.item.toString() === req.body.item.toString()){
+                        foundItem = idx;
+                    }
+                });
+                if(foundItem >= 0) {
+                    user.cart[foundItem].qty += parseInt(qty);
+                } else {
+                    user.cart.push(req.body);
                 }
-            });
-            if(foundItem >= 0) {
-                user.cart[foundItem].qty += parseInt(qty);
-            } else {
-                user.cart.push(req.body);
-            }
-            saveUser(user, req, res);
-        })
+                saveUser(user, req, res);
+            })
+        }
+
     },
     editCart : function(req, res, next) {
         var id = req.params.user_id;

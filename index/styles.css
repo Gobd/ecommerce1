@@ -20,3 +20,6 @@ a[ng-click]{
     display: flex;
     align-items: center;
 }
+.row.spacer {
+    margin-bottom: 50px;
+}
