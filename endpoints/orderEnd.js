@@ -55,7 +55,11 @@ module.exports = {
         })
     },
     addCart : function(req, res, next) {
-        var id = req.params.user_id;
+        if (!req.session) {
+            res.status(500).json('not logged in');
+        }
+        var sess = req.session;
+        id = sess.uid;
         User.findById(id, function(err, resp){
             if (err) {res.status(500).json(err)}
             var user = resp;
@@ -109,7 +113,6 @@ module.exports = {
             sent = true;
             res.status(200).json(false);
         }
-        console.log(id);
         if (!sent){
             User
                 .findById(id)

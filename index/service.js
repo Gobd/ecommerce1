@@ -77,11 +77,17 @@ angular.module('app').service('mainSvc', function($http){
         }
     };
 
-    // post /api/user
-// get /api/user/:id
+    this.addCart = function(data){
+        return $http({
+            method: 'POST',
+            url: 'http://localhost:8080/api/cart/',
+            data: data
+        });
+    };
+
+    // post /api/cart/:id
+// put /api/cart/:id
 // post /api/order/:id
 // get api/order
-// post /api/cart/:id
-// put /api/cart/:id
 
 });

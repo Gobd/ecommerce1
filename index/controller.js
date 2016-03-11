@@ -26,4 +26,10 @@ angular.module('app').controller('mainCtrl', function($scope, mainSvc, prodRef, 
         })
     }
     };
+
+    $scope.addCart = function(data){
+        mainSvc.addCart(data).then(function(res){
+            $scope.cart = res;
+        })
+    }
 });

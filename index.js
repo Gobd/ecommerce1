@@ -35,8 +35,8 @@ app.get('/api/user/', orderEnd.getUser);
 app.post('/api/order/:user_id', orderEnd.postOrder);
 app.get('/api/order', orderEnd.getOrder);
 
-app.post('/api/cart/:user_id', orderEnd.addCart);
-app.put('/api/cart/:user_id', orderEnd.editCart);
+app.post('/api/cart/', orderEnd.addCart);
+app.put('/api/cart/', orderEnd.editCart);
 
 app.listen(port, function() {
     console.log('Listening on port ' + port);
