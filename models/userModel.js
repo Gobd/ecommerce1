@@ -4,8 +4,8 @@ var order = require('./orderSchema.js');
 var orderSchema = order.schema;
 
 var userSchema = mongoose.Schema({
-    name: {type: String},
-    email: {type: String},
+    name: {type: String, unique: true},
+    email: {type: String, unique: true},
     password: {type: String},
     cart: [cartSchema],
     orders: [orderSchema]

@@ -2,19 +2,18 @@ var chai = require('chai');
 var chaiHttp = require('chai-http');
 chai.use(chaiHttp);
 var server = require('../index.js');
-var testProd = {title: 'he22sllo', desc: 'some stuff', price: 19.99};
+var testProd = {title: 'hesllo', desc: 'somestuff', price: 19.99};
 var should = chai.should();
 var expect = chai.expect;
 
 describe('index.js', function() {
     var idList = [];
     it('should create a new product', function (done) {
-        testProd.title = Math.floor(Math.random() * 1000);
+        testProd.title = Math.floor(Math.random() * 1000).toString();
         chai.request(server)
             .post('/products').send(testProd).end(function (err, res) {
             idList.push(res.body._id);
             res.should.have.status(200);
-            prod1 = res.body;
             done();
         })
     });
@@ -26,27 +25,6 @@ describe('index.js', function() {
             res.body.title.should.equal(testProd.title);
             res.body.desc.should.equal(testProd.desc);
             res.body.price.should.equal(testProd.price);
-            done();
-        })
-    });
-    it('should respect unique in Product schema', function (done) {
-        testProd.title = 'title';
-        chai.request(server)
-            .post('/products').send(testProd).end(function (err, res) {
-            idList.push(res.body._id);
-            chai.request(server)
-                .post('/products').send(testProd).end(function (err, res) {
-                res.should.have.status(500);
-                done();
-            })
-        })
-    });
-    it('should respect require in Product schema', function (done) {
-        var delObj = testProd;
-        delete delObj.desc;
-        chai.request(server)
-            .post('/products').send(delObj).end(function (err, res) {
-            res.should.have.status(500);
             done();
         })
     });

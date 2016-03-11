@@ -21,10 +21,10 @@
                     </div>
                 </div>
             </form>
-            <p ng-if="user">
+            <div ng-if="user">
                 <p>Hi, <a ui-sref="cart">{{ user.name }}</a></p>
                  <p><a ui-sref="admin">Be an admin!</a></p>
-            </p>
+            </div>
         </div>
     </div>
 </div>
